@@ -1,0 +1,5 @@
+<p-sidebar  *ngIf='doNotify()' [(visible)]="mtNotify" [baseZIndex]="10000" position="bottom" [dismissible]="false" [showCloseIcon]="false">
+    <p style='font-size:15px;font-weight:600'>{{getMessage()}}</p>
+    <br><br>
+    <button pButton type="button" (click)="dontNotify()" label="Got It!" class="ui-button-success"></button>
+</p-sidebar>
