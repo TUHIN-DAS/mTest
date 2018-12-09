@@ -13,7 +13,7 @@ import { MTNavBarComponent } from './m-tnav-bar/m-tnav-bar.component';
 import { MTCodingOnlineComponent } from './m-tcoding-online/m-tcoding-online.component';
 import { MTBreadCrumbComponent } from './m-tbread-crumb/m-tbread-crumb.component';
 import { FormsModule } from '@angular/forms';
-import { MTNotificationsComponent } from './m-tnotifications/m-tnotifications.component';
+import { Notification } from './services/notification.service';
 
 @NgModule({
   declarations: [
@@ -22,8 +22,7 @@ import { MTNotificationsComponent } from './m-tnotifications/m-tnotifications.co
     MTDashboardComponent,
     MTNavBarComponent,
     MTCodingOnlineComponent,
-    MTBreadCrumbComponent,
-    MTNotificationsComponent
+    MTBreadCrumbComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +34,8 @@ import { MTNotificationsComponent } from './m-tnotifications/m-tnotifications.co
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [Notification],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+}

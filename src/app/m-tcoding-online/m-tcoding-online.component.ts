@@ -1,20 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl,Validators } from '@angular/forms';
-import { MTNotificationsComponent } from './../m-tnotifications/m-tnotifications.component';
 import { CodingTemplate, MethodArgument, TestCase } from '../models/coding.model';
+import { RegexList } from '../utils/regex.list';
+import { Notification } from '../services/notification.service';
+import { MessageService } from 'primeng/api';
+
+
 @Component({
   selector: 'app-m-tcoding-online',
   templateUrl: './m-tcoding-online.component.html',
   styleUrls: ['./m-tcoding-online.component.css']
 })
+
 export class MTCodingOnlineComponent implements OnInit {
 
-  constructor() { }
+  constructor(private msgService:MessageService,private notification:Notification) { }
   codingForm = new FormGroup({
     statement: new FormControl('',
       Validators.required),
     description: new FormControl('<h1>Describe the <b>PROBLEM</b>,</h1><h3> in the best way possible !</h3>',Validators.required),
-    function: new FormControl('',Validators.required)
+    function: new FormControl('',Validators.required),
+    functionReturn: new FormControl('',Validators.required)
   });
 
   argName = "";
@@ -39,7 +45,7 @@ export class MTCodingOnlineComponent implements OnInit {
 
   help(msgId)
   {
-    MTNotificationsComponent.notify(msgId);
+    this.notification.notifyLong(msgId,"warn",this.msgService);
   }
 
   addArgument()
@@ -48,6 +54,7 @@ export class MTCodingOnlineComponent implements OnInit {
     arg.datatype = this.argType.label;
     arg.datatypeid = this.argType.value;
     arg.name = this.argName;
+    if(!this.validateArgument(arg)) return;
     arg.id = this.argCount++;
     this.args.push(arg);
   }
@@ -60,6 +67,7 @@ export class MTCodingOnlineComponent implements OnInit {
     testCase.inputs = this.tcIP;
     testCase.output = this.tcOP;
     testCase.title = this.tcTitle;
+    if(!this.validateTestCase(testCase)) return;
     testCase.id = this.tcCount++;
     this.testCases.push(testCase);
   }
@@ -101,5 +109,89 @@ export class MTCodingOnlineComponent implements OnInit {
     console.log(dataObj);
   }
 
+  validateArgument(arg)
+  {
+    arg.datatype = this.argType.label;
+    arg.datatypeid = this.argType.value;
+   
+    // arg name cant be left blank
+    if(arg.name == "")
+    {
+      this.notification.notifyShort(4,"error",this.msgService);
+      return false;
+    }
+    
+    // arg name should be comply with identifier rules.
+    if(!RegexList.ARG_PATTERN.test(arg.name))
+    {
+      this.notification.notifyLong(2,"error",this.msgService);
+      return false;
+    }
+
+    // arg datatype must be selected.
+    if(arg.datatypeid == null)
+    {
+      this.notification.notifyShort(3,"error",this.msgService);
+      return false;
+    }
+
+    // check if name already exists
+    for(let i = 0; i < this.args.length;i++)
+    {
+      if(this.args[i].name == arg.name)
+      {
+        this.notification.notifyShort(8,"error",this.msgService);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  validateTestCase(testCase)
+  {
+    testCase.inputs = this.tcIP;
+    testCase.output = this.tcOP;
+    testCase.title = this.tcTitle;
+    
+    // validate test case title
+    if(testCase.title == "")
+    {
+      this.notification.notifyShort(5,"error",this.msgService);
+      return false;
+    }
+
+    if(testCase.inputs == "")
+    {
+      this.notification.notifyShort(6,"error",this.msgService);
+      return false;
+    }
+
+    if(testCase.output == "")
+    {
+      this.notification.notifyShort(7,"error",this.msgService);
+      return false;
+    }
+
+    for(let i = 0; i < this.testCases.length;i++)
+    {
+      console.log(testCase);
+      if(this.testCases[i].title == testCase.title)
+      {
+        this.notification.notifyShort(9,"error",this.msgService);
+        return false;
+      }
+
+      if(this.testCases[i].inputs == testCase.inputs)
+      {
+        this.notification.notifyShort(10,"error",this.msgService);
+        return false;
+      }
+    
+      
+    }
+
+    return true;    
+  }
 }
 
