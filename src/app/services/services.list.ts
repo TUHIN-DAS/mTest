@@ -4,7 +4,7 @@ export class ServiceList
 
 
    static AUTH_SERVICE = "https://demo0480828.mockable.io/authenticate";
-
+   
 
 
 }

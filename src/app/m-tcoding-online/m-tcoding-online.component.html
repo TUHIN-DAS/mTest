@@ -19,11 +19,14 @@
         <div class="p-col-10">
             <p-editor  [style]="{'width':'100%','height':'300px'}" formControlName='description'></p-editor>            
         </div>
-        <div class="p-col-4">
+        <div class="p-col-3">
             <input type="text" style='width:100%' pInputText placeholder="Method Name" formControlName='function'>                
         </div>
-        <div class="p-col-6">
+        <div class="p-col-3">
             <sup>*</sup>Max 200 Characters
+        </div>
+        <div class="p-col-3">
+            <p-dropdown [options]="dataTypes" placeholder="Method Return Type" formControlName='functionReturn' ></p-dropdown>                           
         </div>
         <div class="p-col-12">
             <p-fieldset [toggleable]="true">
@@ -52,10 +55,22 @@
                 <p-header>Test Cases</p-header>
                 <div class="p-grid">
                         <div class="p-col-12">
-                        <span *ngFor='let testCase of testCases' >
-                                <button  style="margin-right: .25em" pButton type="button" label="{{testCase.title}}   INPUT(s) : {{testCase.inputs}} OUTPUT : {{testCase.output}}" class="ui-button-info"></button>      
-                                <i class='pi pi-times' (click)='removeTestCase(testCase.id)'></i> 
-                            </span>  
+                             <p-toolbar *ngFor='let testCase of testCases'>
+                                <div class="ui-toolbar-group-left">
+                                    <i class="fa fa-rocket fa-lg" style='color:#0b2ba5'></i>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <b>{{testCase.title}}</b>
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;<b>Input(s)</b>
+                                    {{testCase.inputs}}
+                                    &nbsp;&nbsp;&nbsp;<b>Output</b>
+                                    {{testCase.output}}
+                                    </div>
+                                <div class="ui-toolbar-group-right">
+                                    <i class="pi pi-trash" (click)='removeTestCase(testCase.id)'></i>
+                                </div>
+                            </p-toolbar><br>
                             </div>
                         <div class="p-col-3">
                             <input type="text" style='width:100%' pInputText placeholder="Test Case Title" [(ngModel)]="tcTitle" [ngModelOptions]="{standalone: true}">                

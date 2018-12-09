@@ -10,10 +10,12 @@ import { NgModule } from '@angular/core';
 import {
 	CardModule,ButtonModule,InputTextModule,CheckboxModule,RadioButtonModule,TabViewModule,
 	CodeHighlighterModule,MegaMenuModule,PanelModule,BreadcrumbModule,EditorModule,FieldsetModule,
-	DropdownModule,SidebarModule
+	DropdownModule,SidebarModule,ToolbarModule
 
 } from 'primeng/primeng';
 
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -21,11 +23,12 @@ exports:
 	[
 		CardModule,ButtonModule,InputTextModule,CheckboxModule,RadioButtonModule,TabViewModule,
 		CodeHighlighterModule,MegaMenuModule,PanelModule,BreadcrumbModule,EditorModule,FieldsetModule,
-		DropdownModule,SidebarModule
+		DropdownModule,SidebarModule,ToastModule,ToolbarModule
 	],
 	imports: [
 	 
 	 ],
+	 providers: [MessageService]
 })
 
 export class PrimeNG {} 
