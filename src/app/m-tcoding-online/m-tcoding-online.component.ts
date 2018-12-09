@@ -30,6 +30,7 @@ export class MTCodingOnlineComponent implements OnInit {
   tcOP = "";
   args = [];
   testCases = [];
+  previewTest = false;
 
   dataTypes = [
     {label:'Select Datatype', value:null},
@@ -51,8 +52,11 @@ export class MTCodingOnlineComponent implements OnInit {
   addArgument()
   {
     let arg = new MethodArgument();
-    arg.datatype = this.argType.label;
-    arg.datatypeid = this.argType.value;
+    if(this.argType != null)
+    {
+      arg.datatype = this.argType.label;
+      arg.datatypeid = this.argType.value;
+    }
     arg.name = this.argName;
     if(!this.validateArgument(arg)) return;
     arg.id = this.argCount++;
@@ -96,17 +100,28 @@ export class MTCodingOnlineComponent implements OnInit {
     }
   }
 
+  dataObj = new CodingTemplate();
   save()
   {
-    // save the entire data in a coding template
-    let dataObj = new CodingTemplate();
-    dataObj.statement = this.codingForm.controls.statement.value;
-    dataObj.description = this.codingForm.controls.description.value;
-    dataObj.methodArgs = this.args;
-    dataObj.testCases = this.testCases;
-    dataObj.methodName = this.codingForm.controls.function.value;
+
     
-    console.log(dataObj);
+    // save the entire data in a coding template
+    
+    this.dataObj.statement = this.codingForm.controls.statement.value;
+    this.dataObj.description = this.codingForm.controls.description.value;
+    this.dataObj.methodArgs = this.args;
+    this.dataObj.testCases = this.testCases;
+    this.dataObj.methodName = this.codingForm.controls.function.value;
+    let returnObj = new MethodArgument();
+    if(this.codingForm.controls.functionReturn.value != null)
+    {
+      returnObj.datatype = this.codingForm.controls.functionReturn.value.label;
+      returnObj.datatypeid = this.codingForm.controls.functionReturn.value.id;
+    }
+    this.dataObj.methodReturn = returnObj;
+    if(!this.validateTest()) return;
+    this.previewTest = true; 
+    console.log(this.dataObj);
   }
 
   validateArgument(arg)
@@ -114,38 +129,40 @@ export class MTCodingOnlineComponent implements OnInit {
     arg.datatype = this.argType.label;
     arg.datatypeid = this.argType.value;
    
+    let what = true;
     // arg name cant be left blank
     if(arg.name == "")
     {
       this.notification.notifyShort(4,"error",this.msgService);
-      return false;
+      what = false;
     }
     
     // arg name should be comply with identifier rules.
-    if(!RegexList.ARG_PATTERN.test(arg.name))
+    else if(!RegexList.ARG_PATTERN.test(arg.name))
     {
       this.notification.notifyLong(2,"error",this.msgService);
-      return false;
+      what = false;
+    }
+
+    else// check if name already exists
+    {
+      for(let i = 0; i < this.args.length;i++)
+      {
+      if(this.args[i].name == arg.name)
+      {
+        this.notification.notifyShort(8,"error",this.msgService);
+        what = false;
+      }
+      }
     }
 
     // arg datatype must be selected.
     if(arg.datatypeid == null)
     {
       this.notification.notifyShort(3,"error",this.msgService);
-      return false;
+      what =  false;
     }
-
-    // check if name already exists
-    for(let i = 0; i < this.args.length;i++)
-    {
-      if(this.args[i].name == arg.name)
-      {
-        this.notification.notifyShort(8,"error",this.msgService);
-        return false;
-      }
-    }
-
-    return true;
+    return what;
   }
 
   validateTestCase(testCase)
@@ -192,6 +209,62 @@ export class MTCodingOnlineComponent implements OnInit {
     }
 
     return true;    
+  }
+
+  validateTest()
+  {
+     // validate all the props of coding test
+     // description is optional.
+     // also return type and args are optional. 
+     let what = true;
+     if(this.dataObj.statement == "")
+     {
+       this.notification.notifyLong(11,"error",this.msgService);
+       what = false;
+     }
+
+     if(this.dataObj.methodName == "")
+     {
+       this.notification.notifyLong(12,"error",this.msgService);
+       what = false;
+     }
+
+     else if(!RegexList.ARG_PATTERN.test(this.dataObj.methodName))
+     {
+       this.notification.notifyLong(13,"error",this.msgService);
+       what = false;
+     }
+    
+     
+     // discard test cases if both method args and method return are not specified.
+     if(this.dataObj.methodArgs.length == 0 && this.testCases.length > 0 )
+     {
+       this.notification.notifyLong(14,"error",this.msgService);
+       what = false;
+     }
+
+     
+     for(let i = 0; i < this.testCases.length; i++)
+     {
+       if(!this.validateTestCaseOnArgs(i))
+         what = false;
+     }
+
+     return what;
+
+  }
+
+  validateTestCaseOnArgs(id)
+  {
+     // for each test case check it is valid with method args and method return type.
+     // check if args and inputs are same.
+     let inputs = this.testCases[id].inputs.split(";");
+     if(inputs.length != this.dataObj.methodArgs.length)
+     {
+       this.notification.snapNot("Test Case "+id+" is Invalid","Method Argument(s) and Test Case Input(s) does not match.",this.msgService,"error",30000);
+       return false;
+     }
+     return true;
   }
 }
 

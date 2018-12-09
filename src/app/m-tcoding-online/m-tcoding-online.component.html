@@ -102,3 +102,35 @@
 </p-panel>
 </form>
 
+
+
+<p-dialog [(visible)]="previewTest">
+    <p-header>
+        <i class="fa fa-desktop fa-lg" aria-hidden="true"></i> Coding Test Preview
+    </p-header>
+    <div class="p-grid">
+            <div class="p-col-12">
+    <h2>{{dataObj.statement}}</h2>
+    </div><div class="p-col-12">
+    <p [innerHTML]="dataObj.description"></p>
+    </div><div class="p-col-12">
+    <h3>function <b>{{dataObj.methodName}}( </b>
+    <span *ngFor='let arg of dataObj.methodArgs'>{{arg.name}} : {{arg.datatype}},</span> )</h3>
+    </div>
+        <div class="p-col-12">
+             <p-toolbar *ngFor='let testCase of dataObj.testCases'>
+                <div class="ui-toolbar-group-left">
+                    <i class="fa fa-rocket fa-lg" style='color:#0b2ba5'></i>
+                    &nbsp;&nbsp;&nbsp;
+                    <b>{{testCase.title}}</b>
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;<b>Input(s)</b>
+                    {{testCase.inputs}}
+                    &nbsp;&nbsp;&nbsp;<b>Output</b>
+                    {{testCase.output}}
+                    </div>
+            </p-toolbar><br>
+            </div>
+            </div>
+</p-dialog>

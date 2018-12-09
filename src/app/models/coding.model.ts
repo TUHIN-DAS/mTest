@@ -5,6 +5,7 @@ export class CodingTemplate
     methodName:string;
     methodArgs:MethodArgument[];
     testCases:TestCase[];
+    methodReturn:MethodArgument;
 }
 
 export class MethodArgument

@@ -10,20 +10,20 @@ import { NgModule } from '@angular/core';
 import {
 	CardModule,ButtonModule,InputTextModule,CheckboxModule,RadioButtonModule,TabViewModule,
 	CodeHighlighterModule,MegaMenuModule,PanelModule,BreadcrumbModule,EditorModule,FieldsetModule,
-	DropdownModule,SidebarModule,ToolbarModule
+	DropdownModule,SidebarModule,ToolbarModule,DialogModule
 
 } from 'primeng/primeng';
 
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
 
 @NgModule({
 exports:
 	[
 		CardModule,ButtonModule,InputTextModule,CheckboxModule,RadioButtonModule,TabViewModule,
 		CodeHighlighterModule,MegaMenuModule,PanelModule,BreadcrumbModule,EditorModule,FieldsetModule,
-		DropdownModule,SidebarModule,ToastModule,ToolbarModule
+		DropdownModule,SidebarModule,ToastModule,ToolbarModule,DynamicDialogModule,DialogModule
 	],
 	imports: [
 	 
