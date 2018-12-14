@@ -14,6 +14,7 @@ import { MTCodingOnlineComponent } from './m-tcoding-online/m-tcoding-online.com
 import { MTBreadCrumbComponent } from './m-tbread-crumb/m-tbread-crumb.component';
 import { FormsModule } from '@angular/forms';
 import { Notification } from './services/notification.service';
+import { MTRegisterComponent } from './m-tregister/m-tregister.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { Notification } from './services/notification.service';
     MTDashboardComponent,
     MTNavBarComponent,
     MTCodingOnlineComponent,
-    MTBreadCrumbComponent
+    MTBreadCrumbComponent,
+    MTRegisterComponent
   ],
   imports: [
     BrowserModule,
