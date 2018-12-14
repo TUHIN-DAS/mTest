@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticateService } from '../services/authenticate.service';
 import { FormGroup, FormControl,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Notification } from '../services/notification.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-m-tlogin',
@@ -11,8 +13,8 @@ import { Router } from '@angular/router';
 })
 export class MTLoginComponent implements OnInit {
 
-  constructor(private authService:AuthenticateService,private router: Router) { }
-
+  constructor(private authService:AuthenticateService,private router: Router,private msgService:MessageService,private notification:Notification) { }
+  busy = false;
   loginForm = new FormGroup({
     username: new FormControl('',
       Validators.required),
@@ -31,9 +33,11 @@ export class MTLoginComponent implements OnInit {
     // TODO : handle error case
     if(!this.loginForm.controls.password.valid || !this.loginForm.controls.username.valid) return;
     // authenticate the credentials via service 
+    this.busy = true;
     let response = this.authService.loginUser(this.loginForm).subscribe(
       response => { 
          // TODO : need to add more layers of auths later.
+         this.busy = false;
          if(response != null && response != undefined && response.authenticated != undefined)
          {
            this.authService.setAuthObject(response);
@@ -43,6 +47,11 @@ export class MTLoginComponent implements OnInit {
        } 
     );
     
+  }
+
+  showUserNameHelp()
+  {
+    this.notification.snapNot("Username","Enter any one of username, email or phone number.",this.msgService,"warn",30000);
   }
 
 }

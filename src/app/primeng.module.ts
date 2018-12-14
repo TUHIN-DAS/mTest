@@ -17,13 +17,15 @@ import {
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
-
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {BlockUIModule} from 'primeng/blockui';
 @NgModule({
 exports:
 	[
 		CardModule,ButtonModule,InputTextModule,CheckboxModule,RadioButtonModule,TabViewModule,
 		CodeHighlighterModule,MegaMenuModule,PanelModule,BreadcrumbModule,EditorModule,FieldsetModule,
-		DropdownModule,SidebarModule,ToastModule,ToolbarModule,DynamicDialogModule,DialogModule
+		DropdownModule,SidebarModule,ToastModule,ToolbarModule,DynamicDialogModule,DialogModule,
+		ProgressSpinnerModule,BlockUIModule
 	],
 	imports: [
 	 

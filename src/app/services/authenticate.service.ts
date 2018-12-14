@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { ServiceList } from './services.list';
+import { RegisterUser } from '../models/register.model';
 
 
 const httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Authorization': 'my-auth-token'
+      'Content-Type':  'application/json'
     })
    };
 
@@ -49,6 +49,15 @@ export class AuthenticateService
      return AuthenticateService.authobject.authenticated;
    }
   
+   checkUserInfoExists(registerObject:RegisterUser)
+   {
+     return this.http.post<any>(ServiceList.EXIST_SERVICE, registerObject, httpOptions);
+   }
+
+   addUser(registerObject:RegisterUser)
+   {
+    return this.http.post<any>(ServiceList.ADD_USER, registerObject, httpOptions);
+   }
 }
 
 class loginAuthentication

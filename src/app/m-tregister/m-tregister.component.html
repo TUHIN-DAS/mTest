@@ -1,0 +1,39 @@
+<form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+  <div class="p-grid">
+   <div class="p-col p-col-align-start"></div>
+   <div class="p-col p-col-align-center">
+      
+      <p-blockUI [target]="reg" [blocked]="busy">
+          <p-progressSpinner [style]="{  marginLeft: '157px',marginTop: '100px'}"></p-progressSpinner>
+      </p-blockUI>
+     <p-card  #reg header="mTest" subheader="Registration" styleClass="ui-card-shadow">
+       
+         <div class="ui-inputgroup">
+             <span class="ui-inputgroup-addon"><i class="fa fa-user" ></i></span>
+             <input type="text" class='width-300' [ngClass]='{invalid : !registerForm.controls.username.valid && registerForm.controls.username.dirty}' pInputText placeholder="Username" formControlName='username'>         
+         </div><br>
+        <div class="ui-inputgroup">
+             <span class="ui-inputgroup-addon"><i class="fa fa-key"></i></span>
+             <input type="password"  class='width-300' [ngClass]='{invalid : !registerForm.controls.password.valid && registerForm.controls.password.dirty }' pInputText placeholder="Password" formControlName='password'>         
+         </div><br>
+         <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-at"></i></span>
+          <input type="text" class='width-300' [ngClass]='{invalid : !registerForm.controls.email.valid && registerForm.controls.email.dirty }' pInputText placeholder="Email" formControlName='email'>         
+      </div><br>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-mobile"></i></span>
+        <input type="number" class='width-300' [ngClass]='{invalid : !registerForm.controls.phone.valid && registerForm.controls.phone.dirty }' pInputText placeholder="Phone" formControlName='phone'>         
+    </div>
+        
+       <p-footer>
+           <button pButton type="submit" label="Register" icon="pi pi-check" style="margin-right: 1em" ></button>
+           <button pButton type="button" label="Cancel" icon="pi pi-times" style="margin-right: 1em"  class="ui-button-secondary"></button>
+           <h6 style='float:right'>Copyright mTest 2018</h6>  
+       </p-footer>
+          
+   </p-card>
+   </div>
+   <div class="p-col p-col-align-end"></div>
+ </div>
+ </form>
+ 
