@@ -27,6 +27,11 @@ export class Notification
         ref.add({severity:type, summary:Notification.messageTitle[msgId], detail:Notification.messageList[msgId],life:30000});
     }
 
+    snapNot(msgTitle,msgDesc,ref,type,time)
+    {
+        ref.add({severity:type, summary:msgTitle, detail:msgDesc,life:time});
+    }
+
     // Note : try to add that element of quirkyness while adding the notification messages.
     static messageList = {
       0 : "Enter the value for each argument of the method in the same order separated by (;)."+
@@ -45,7 +50,11 @@ export class Notification
       7 : "",
       8 : "",
       9 : "",
-      10 : ""
+      10 : "",
+      11 : "",
+      12 : "",
+      13 : "Method name must comply with the guidelines of identifier name.",
+      14 : "There is no argument specififed in method to test the Test Case(s)"
     }
 
     static messageTitle = {
@@ -59,6 +68,10 @@ export class Notification
       7 : "Test Case Output is Blank",
       8 : "Argument Name Already Exists",
       9 : "Same Test Case Title Already Exists",
-      10 : "Test Case Already Exists"
+      10 : "Test Case Already Exists",
+      11 : "Problem Statement is Blank",
+      12 : "Method Name is Blank",
+      13 : "Invalid Method Name",
+      14 : "Test Case(s) are not Required"
     }
 }
