@@ -38,12 +38,23 @@ export class MTLoginComponent implements OnInit {
       response => { 
          // TODO : need to add more layers of auths later.
          this.busy = false;
-         if(response != null && response != undefined && response.authenticated != undefined)
+         if(response == null || response == undefined) 
          {
-           this.authService.setAuthObject(response);
-           sessionStorage.setItem("authObj",JSON.stringify(response));
-           this.router.navigate(['/', 'mTDashboard']);
+           this.notification.snapNot("Server Error","Server is not responding",this.msgService,"error",30000);
+           return;
          }
+         if(response["error"] != undefined)
+         {
+           this.notification.snapNot("",response["error"],this.msgService,"error",30000);
+           return;
+         }
+         
+         
+          this.authService.setAuthObject(response);
+          sessionStorage.setItem("authObj",JSON.stringify(response));
+          this.notification.snapNot("Now Logged In","",this.msgService,"success",30000);
+          this.router.navigate(['/', 'mTDashboard']);
+         
        } 
     );
     
