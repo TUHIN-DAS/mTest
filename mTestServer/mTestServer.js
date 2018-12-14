@@ -7,20 +7,43 @@ var fs = require("fs");
 var dbQuery = require("./databaseManager.js");
 var mysql = require('mysql');
 var crypto = require('crypto');
+var bodyParser = require('body-parser');
 
-app.get('/registeruser', function(req, res) { 
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-    var name = req.query.username;
-    var email = req.query.email;
-    var password = req.query.password;
-    var phone = req.query.phone;
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+app.post('/registeruser', function(req, res) { 
+
+    var name = req.body.username;
+    var email = req.body.email;
+    var password = req.body.password;
+    var phone = req.body.phone;
 	
-	
-	var id = generateSecureId(password);
+    var id = generateSecureId(password);
     var query = "insert into mtest_r_users values ('"+id+"','"+name+"','"+password+"','"+ email +"',"+phone+")";
-	handleRequest(query,res,executeQuery);
+    handleRequest(query,res,executeQuery);
 	
 });
+
 
 
 
@@ -37,31 +60,33 @@ app.get('/deleteuser*', function(req, res) {
     handleRequest(query,res,executeQuery);
 });
 
-app.get('/login', function(req, res) {
+app.post('/login', function(req, res) {
+
 
     /* login can be done using any of the following information 
 	   1. name  when neither email or phone go for name.
 	   2. email  check for value to be email.
 	   3. phone  check for value to be number.
-	*/
-    var name = req.query.username;
-    var password = req.query.password;
+    */
+    console.log(req.body);
+    var name = req.body.username;
+    var password = req.body.password;
 	
-	var query = "select id,name,email,phone from mtest_r_users where password='"+password+"'  and ";
+    var query = "select id,name,email,phone from mtest_r_users where password='"+password+"'  and ";
 	
     if(new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(name)) // email
     {
 	  query += " email='" + name + "'"; 
     }	
-	else if(!isNaN(name) && name.length >= 10) // phone
-	{
-	  query += " phone=" + name;
-	}
-	else
-	{
-	  query += " name='" + name + "'";
-	}
-	handleRequest(query,res,executeLoginQuery);
+    else if(!isNaN(name) && name.length >= 10) // phone
+    {
+	 query += " phone=" + name;
+    }
+    else
+    {
+	 query += " name='" + name + "'";
+    }
+    handleRequest(query,res,executeLoginQuery);
 });
 
 
@@ -70,13 +95,13 @@ var handleRequest = function(query,res,callback)
    fs.readFile('configurations.txt', 'utf8', function(err, contents) {
    
       if(err)
-	    res.end(JSON.stringify(err));
+	    res.end(JSON.stringify({ error : "Database configuration not found."}));
       if(contents)
       {
         var db_config = JSON.parse(contents).db_config;
 	    callback(db_config,query,res);
 	  }
-	});
+      });
 }
 
 
@@ -89,11 +114,15 @@ var executeLoginQuery = function(db_config,query,res)
 		  res.end(JSON.stringify(err));
 	    con.query(query, function (err, result) 
 	    {
-		   if (err) 
-		      res.end(JSON.stringify(err));
-	       else
+	       if (err) 
+		 res.end(JSON.stringify({ error : "Cannot connect to server" }));
+	       else if(result.length > 0)
 	       {
-		      sendLoginWithToken(res,result);
+	         sendLoginWithToken(res,result);
+	       }
+	       else
+               {
+	         res.end(JSON.stringify({ error : "Incorrect login credentials." }));
 	       }
 	    });
 	});	
@@ -105,7 +134,7 @@ var sendLoginWithToken = function(res,result)
 {
   var loginObj = result[0];
   var id = generateSecureId(new Date().getTime() + loginObj.email);
-  loginObj["accessToken"] = id;
+  loginObj["accessToken"] = id.slice(0,100);
   res.end(JSON.stringify(loginObj));
 }
 

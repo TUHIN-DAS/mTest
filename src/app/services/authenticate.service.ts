@@ -7,10 +7,10 @@ import { RegisterUser } from '../models/register.model';
 
 
 const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-    })
-   };
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+  })
+};
 
 
 
@@ -34,9 +34,9 @@ export class AuthenticateService
    loginUser(loginForm): Observable<loginAuthentication>
    {
       let loginPacket = new LoginPacket();
-      loginPacket.password = loginForm.password;
-      loginPacket.username = loginForm.username;
-      return this.http.post<loginAuthentication>(ServiceList.AUTH_SERVICE, loginPacket, httpOptions);
+      loginPacket.password = loginForm.controls.password.value;
+      loginPacket.username = loginForm.controls.username.value;
+      return this.http.post<any>(ServiceList.AUTH_SERVICE,loginPacket,httpOptions);
    }
 
    setAuthObject(response)
