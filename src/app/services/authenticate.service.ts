@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { ServiceList } from './services.list';
 import { RegisterUser } from '../models/register.model';
-
+import { BehaviorSubject } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -25,10 +25,12 @@ class LoginPacket
 export class AuthenticateService
 {
 
-   static authobject :loginAuthentication;
+   authobject :loginAuthentication;
+   loggedIn = new BehaviorSubject<boolean>(false); // {1}
+
 
    constructor(private http: HttpClient){
-    AuthenticateService.authobject = new loginAuthentication();
+    this.authobject = new loginAuthentication();
    }
 
    loginUser(loginForm): Observable<loginAuthentication>
@@ -41,12 +43,12 @@ export class AuthenticateService
 
    setAuthObject(response)
    {
-     AuthenticateService.authobject = response;
+     this.authobject = response;
    }
 
    isStillAuthenticated()
    {
-     return AuthenticateService.authobject.authenticated;
+     return this.authobject.authenticated;
    }
   
    checkUserInfoExists(registerObject:RegisterUser)
@@ -58,6 +60,11 @@ export class AuthenticateService
    {
     return this.http.post<any>(ServiceList.ADD_USER, registerObject, httpOptions);
    }
+   
+   get isLoggedIn() {
+    return this.loggedIn.asObservable(); 
+   }
+
 }
 
 class loginAuthentication
@@ -65,4 +72,5 @@ class loginAuthentication
   authenticated:boolean = false;
   session_token:string = "";
   status:string = "failed";
+  accessToken: string = "";
 }
