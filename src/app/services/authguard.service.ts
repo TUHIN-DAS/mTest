@@ -13,7 +13,7 @@ export class AuthGuardService implements CanActivate  {
   constructor(private authService: AuthenticateService,private router: Router){}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     console.log("this.authService",this.authService.authobject);
-    if(this.authService.isStillAuthenticated().accessToken !== undefined && this.authService.isStillAuthenticated().accessToken !== null)
+    if(this.authService.isStillAuthenticated().accessToken !== undefined && this.authService.isStillAuthenticated().accessToken !== null && this.authService.isStillAuthenticated().accessToken !== "")
     {    
       return true;
 	} 
