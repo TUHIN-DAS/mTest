@@ -72,4 +72,5 @@ class loginAuthentication
   authenticated:boolean = false;
   session_token:string = "";
   status:string = "failed";
+  accessToken: string = "";
 }
