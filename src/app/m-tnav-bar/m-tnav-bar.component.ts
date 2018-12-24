@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticateService } from '../services/authenticate.service';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-m-tnav-bar',
   templateUrl: './m-tnav-bar.component.html',
-  styleUrls: ['./m-tnav-bar.component.css'],
-  providers:[AuthenticateService]
+  styleUrls: ['./m-tnav-bar.component.css']
 })
 export class MTNavBarComponent implements OnInit {
 
-  constructor(private router: Router,private authService:AuthenticateService) { }
+  isLoggedIn$: Observable<boolean>;     
+  
+  constructor(private router: Router,private authService:AuthenticateService) { 
+  }
   items =  [
     {
         label: 'Evaluations', icon: 'fa fa-fw fa-check',
@@ -36,10 +40,7 @@ export class MTNavBarComponent implements OnInit {
   ];
 
   ngOnInit() {
-    if(!this.authService.isStillAuthenticated() && sessionStorage.getItem("authObject") == null)
-    {
-      this.router.navigate(['/', 'mTLogin']);
-    }
+   this.isLoggedIn$ = this.authService.loggedIn.asObservable(); 
   }
 
   
