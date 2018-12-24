@@ -48,7 +48,7 @@ export class AuthenticateService
 
    isStillAuthenticated()
    {
-     return this.authobject.authenticated;
+     return this.authobject;
    }
   
    checkUserInfoExists(registerObject:RegisterUser)
@@ -72,5 +72,4 @@ class loginAuthentication
   authenticated:boolean = false;
   session_token:string = "";
   status:string = "failed";
-  accessToken: string = "";
 }
