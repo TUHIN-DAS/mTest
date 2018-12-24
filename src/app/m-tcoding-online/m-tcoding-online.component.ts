@@ -102,9 +102,7 @@ export class MTCodingOnlineComponent implements OnInit {
 
   dataObj = new CodingTemplate();
   save()
-  {
-
-    
+  {   
     // save the entire data in a coding template
     
     this.dataObj.statement = this.codingForm.controls.statement.value;
@@ -121,6 +119,12 @@ export class MTCodingOnlineComponent implements OnInit {
     this.dataObj.methodReturn = returnObj;
     if(!this.validateTest()) return;
     this.previewTest = true; 
+
+    // TODO 0.1 
+    this.dataObj.info.createdBy = "some user";
+    this.dataObj.info.access = 0;
+    this.dataObj.info.createdOn = new Date().toLocaleDateString() + "  " + new Date().toLocaleTimeString();
+
     console.log(this.dataObj);
   }
 

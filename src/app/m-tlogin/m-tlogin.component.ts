@@ -8,7 +8,8 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-m-tlogin',
   templateUrl: './m-tlogin.component.html',
-  styleUrls: ['./m-tlogin.component.css']
+  styleUrls: ['./m-tlogin.component.css'],
+  providers:[AuthenticateService]
 })
 export class MTLoginComponent implements OnInit {
 
@@ -22,7 +23,9 @@ export class MTLoginComponent implements OnInit {
   
   
   ngOnInit() {
-   }
+    if(this.authService.isStillAuthenticated() && sessionStorage.getItem("authObject") != null)
+      this.router.navigate(['/', 'mTDashboard']);
+  }
 
   loginUser()
   {
@@ -48,8 +51,7 @@ export class MTLoginComponent implements OnInit {
          
          
           this.authService.setAuthObject(response);
-		  this.authService.loggedIn.next(true);
-		  //sessionStorage.setItem("authObj",response.accessToken);
+          sessionStorage.setItem("authObj",JSON.stringify(response));
           this.notification.snapNot("Now Logged In","",this.msgService,"success",30000);
           this.router.navigate(['/', 'mTDashboard']);
          

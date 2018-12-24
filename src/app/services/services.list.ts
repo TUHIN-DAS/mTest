@@ -9,7 +9,7 @@ export class ServiceList
    static AUTH_SERVICE = "//localhost:8003/login";
    static EXIST_SERVICE = "https://demo0480828.mockable.io/userexists";
    static ADD_USER = "//localhost:8003/registeruser";
-
+   static ADD_CODE_TEST = "";
 
 
 }

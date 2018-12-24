@@ -1,10 +1,8 @@
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 import { ServiceList } from './services.list';
 import { RegisterUser } from '../models/register.model';
-import { BehaviorSubject } from 'rxjs';
 
 
 const httpOptions = {
@@ -12,6 +10,9 @@ const httpOptions = {
     'Content-Type':  'application/json'
   })
 };
+
+
+
 
 
 class LoginPacket
@@ -24,12 +25,10 @@ class LoginPacket
 export class AuthenticateService
 {
 
-   authobject :loginAuthentication;
-
-   loggedIn = new BehaviorSubject<boolean>(false); // {1}
+   static authobject :loginAuthentication;
 
    constructor(private http: HttpClient){
-   this.authobject = new loginAuthentication();
+    AuthenticateService.authobject = new loginAuthentication();
    }
 
    loginUser(loginForm): Observable<loginAuthentication>
@@ -42,12 +41,12 @@ export class AuthenticateService
 
    setAuthObject(response)
    {
-     this.authobject = response;
+     AuthenticateService.authobject = response;
    }
 
    isStillAuthenticated()
    {
-     return this.authobject;
+     return AuthenticateService.authobject.authenticated;
    }
   
    checkUserInfoExists(registerObject:RegisterUser)
@@ -59,11 +58,6 @@ export class AuthenticateService
    {
     return this.http.post<any>(ServiceList.ADD_USER, registerObject, httpOptions);
    }
-   
-   get isLoggedIn() {
-    return this.loggedIn.asObservable(); // {2}
-   }
-
 }
 
 class loginAuthentication

@@ -1,3 +1,5 @@
+import { TestCommon } from './commontest.model'
+
 export class CodingTemplate
 {
     statement:string;
@@ -6,6 +8,7 @@ export class CodingTemplate
     methodArgs:MethodArgument[];
     testCases:TestCase[];
     methodReturn:MethodArgument;
+    info:TestCommon;
 }
 
 export class MethodArgument
@@ -23,3 +26,4 @@ export class TestCase
     output:string;
     id:number;
 }
+

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticateService } from '../services/authenticate.service';
 
 @Component({
   selector: 'app-m-tdashboard',
@@ -8,10 +7,9 @@ import { AuthenticateService } from '../services/authenticate.service';
 })
 export class MTDashboardComponent implements OnInit {
 
-  constructor(private authService:AuthenticateService) { }
+  constructor() { }
 
   ngOnInit() {
-   this.authService.authobject = null;
   }
 
 }
