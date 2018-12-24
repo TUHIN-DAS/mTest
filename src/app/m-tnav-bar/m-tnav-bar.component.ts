@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticateService } from '../services/authenticate.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-m-tnav-bar',
@@ -9,6 +10,7 @@ import { AuthenticateService } from '../services/authenticate.service';
 })
 export class MTNavBarComponent implements OnInit {
 
+  isLoggedIn$: Observable<boolean>;  
   constructor(private router: Router,private authService:AuthenticateService) { }
   items =  [
     {
