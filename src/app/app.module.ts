@@ -15,6 +15,7 @@ import { MTBreadCrumbComponent } from './m-tbread-crumb/m-tbread-crumb.component
 import { FormsModule } from '@angular/forms';
 import { Notification } from './services/notification.service';
 import { MTRegisterComponent } from './m-tregister/m-tregister.component';
+import { AuthenticateService } from './services/authenticate.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { MTRegisterComponent } from './m-tregister/m-tregister.component';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [Notification],
+  providers: [AuthenticateService,Notification],
   bootstrap: [AppComponent]
 })
 export class AppModule { 
