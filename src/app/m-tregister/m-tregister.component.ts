@@ -82,7 +82,7 @@ export class MTRegisterComponent implements OnInit {
       response => {
         console.log(response);
         
-        if(response.length > 0)
+        if(response[0].count > 0)
         { 
           this.busy = false;
           this.notification.snapNot("User Exists","User already registered with same email, username or phone.",this.msgService,"error",20000);
@@ -94,6 +94,12 @@ export class MTRegisterComponent implements OnInit {
           response =>
           {
             this.busy = false;
+             // failed to add due to some error
+            if(response.affectedRows == undefined || response.affectedRows == 0)
+            {
+              this.notification.snapNot("Failed to register. Try again!","",this.msgService,"error",30000);
+              return;
+            }
             this.notification.snapNot("Successful","User "+registerObj.username+" ("+registerObj.email+") has been registered",this.msgService,"success",20000);
             this.router.navigate(['/', 'mTLogin']);
           }

@@ -16,7 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { Notification } from './services/notification.service';
 import { MTRegisterComponent } from './m-tregister/m-tregister.component';
 import { AuthenticateService } from './services/authenticate.service';
-
+import { TestService } from './services/test.service';
+import { MTCodingTestListComponent } from './m-tcoding-test-list/m-tcoding-test-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { AuthenticateService } from './services/authenticate.service';
     MTNavBarComponent,
     MTCodingOnlineComponent,
     MTBreadCrumbComponent,
-    MTRegisterComponent
+    MTRegisterComponent,
+    MTCodingTestListComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,7 @@ import { AuthenticateService } from './services/authenticate.service';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [AuthenticateService,Notification],
+  providers: [AuthenticateService,Notification,TestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

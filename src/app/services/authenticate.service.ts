@@ -69,8 +69,9 @@ export class AuthenticateService
 
 class loginAuthentication
 {
-  authenticated:boolean = false;
-  session_token:string = "";
-  status:string = "failed";
-  accessToken: string = "";
+  accessToken: string;
+  email:string;
+  id:string;
+  name:string;
+  phone:number;
 }

@@ -19,13 +19,15 @@ import { MessageService } from 'primeng/api';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {BlockUIModule} from 'primeng/blockui';
+import {InputSwitchModule} from 'primeng/inputswitch';
+import {TableModule} from 'primeng/table';
 @NgModule({
 exports:
 	[
 		CardModule,ButtonModule,InputTextModule,CheckboxModule,RadioButtonModule,TabViewModule,
 		CodeHighlighterModule,MegaMenuModule,PanelModule,BreadcrumbModule,EditorModule,FieldsetModule,
 		DropdownModule,SidebarModule,ToastModule,ToolbarModule,DynamicDialogModule,DialogModule,
-		ProgressSpinnerModule,BlockUIModule
+		ProgressSpinnerModule,BlockUIModule,InputSwitchModule,TableModule
 	],
 	imports: [
 	 

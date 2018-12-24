@@ -49,7 +49,7 @@ export class MTNavBarComponent implements OnInit {
     switch(event.item.label.toLowerCase())
     {
       case "online" :
-         component = "mTCodingOnline";
+         component = "mTCodingTests";
          break;
 
 

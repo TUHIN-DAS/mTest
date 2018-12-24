@@ -1,7 +1,10 @@
 
 <br>
 <form [formGroup]="codingForm" (ngSubmit)="save()">
-<p-panel>
+        <p-blockUI [target]="codeTest" [blocked]="busy">
+                <p-progressSpinner [style]="{  marginLeft: '567px',marginTop: '411px'}"></p-progressSpinner>
+            </p-blockUI>
+<p-panel #codeTest>
     <p-header>
         <div class="ui-helper-clearfix">
             <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">
@@ -13,8 +16,13 @@
         <div class="p-col-6">    
                   <input type="text" style='width:100%' pInputText placeholder="Problem Statement" formControlName='statement'>         
               </div>
-              <div class="p-col-6">
+              <div class="p-col-2">
                   <sup>*</sup>Max 500 Characters
+
+              </div>
+              <div class="p-col-4">
+                    <span style='vertical-align: 6px;'>Public &nbsp;</span>
+                    <p-inputSwitch formControlName="access"></p-inputSwitch>
               </div>
         <div class="p-col-10">
             <p-editor  [style]="{'width':'100%','height':'300px'}" formControlName='description'></p-editor>            

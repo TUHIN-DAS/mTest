@@ -49,7 +49,8 @@ export class MTLoginComponent implements OnInit {
          
           this.authService.setAuthObject(response);
           this.authService.loggedIn.next(true);
-          sessionStorage.setItem("authObj",JSON.stringify(response));
+          // no need for this right now !
+          //sessionStorage.setItem("authObj",JSON.stringify(response));
           this.notification.snapNot("Now Logged In","",this.msgService,"success",30000);
           this.router.navigate(['/', 'mTDashboard']);
          

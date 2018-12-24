@@ -4,7 +4,9 @@ import { CodingTemplate, MethodArgument, TestCase } from '../models/coding.model
 import { RegexList } from '../utils/regex.list';
 import { Notification } from '../services/notification.service';
 import { MessageService } from 'primeng/api';
-
+import { AuthenticateService } from '../services/authenticate.service';
+import { TestService } from '../services/test.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-m-tcoding-online',
@@ -14,13 +16,15 @@ import { MessageService } from 'primeng/api';
 
 export class MTCodingOnlineComponent implements OnInit {
 
-  constructor(private msgService:MessageService,private notification:Notification) { }
+  busy = false;
+  constructor(private msgService:MessageService,private notification:Notification,private authService:AuthenticateService,private testService:TestService,private router: Router) { }
   codingForm = new FormGroup({
     statement: new FormControl('',
       Validators.required),
     description: new FormControl('<h1>Describe the <b>PROBLEM</b>,</h1><h3> in the best way possible !</h3>',Validators.required),
     function: new FormControl('',Validators.required),
-    functionReturn: new FormControl('',Validators.required)
+    functionReturn: new FormControl('',Validators.required),
+    access: new FormControl(true)
   });
 
   argName = "";
@@ -104,7 +108,7 @@ export class MTCodingOnlineComponent implements OnInit {
   save()
   {   
     // save the entire data in a coding template
-    
+    console.log(this.authService.authobject);
     this.dataObj.statement = this.codingForm.controls.statement.value;
     this.dataObj.description = this.codingForm.controls.description.value;
     this.dataObj.methodArgs = this.args;
@@ -118,14 +122,31 @@ export class MTCodingOnlineComponent implements OnInit {
     }
     this.dataObj.methodReturn = returnObj;
     if(!this.validateTest()) return;
-    this.previewTest = true; 
+    //this.previewTest = true; 
 
     // TODO 0.1 
-    this.dataObj.info.createdBy = "some user";
-    this.dataObj.info.access = 0;
+    
+    this.dataObj.info.createdBy = this.authService.authobject.id;
+    this.dataObj.info.access = this.codingForm.controls.access.value ? 0 : 1;
     this.dataObj.info.createdOn = new Date().toLocaleDateString() + "  " + new Date().toLocaleTimeString();
 
     console.log(this.dataObj);
+    this.busy = true;
+    this.testService.addCodeTest(this.dataObj).subscribe(response=>{
+      this.busy = false;
+
+      // failed to add due to some error
+      if(response.affectedRows == undefined || response.affectedRows == 0)
+      {
+        this.notification.snapNot("Failed add test. Try again!","",this.msgService,"error",30000);
+        return;
+      }
+      this.notification.snapNot("Test Added Succesfully","",this.msgService,"success",30000);
+      console.log(response);
+      //this.router.navigate(['/', 'mTDashboard']);
+     }
+    );
+    
   }
 
   validateArgument(arg)

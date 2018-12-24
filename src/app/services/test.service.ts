@@ -22,6 +22,9 @@ export class TestService
         return this.http.post<any>(ServiceList.ADD_CODE_TEST,codeTest,httpOptions);
     }
 
-
+    getCodeTests(id)
+    {
+        return this.http.post<any>(ServiceList.GET_CODE_TEST,{"author":id},httpOptions);
+    }
 
 }

@@ -8,7 +8,7 @@ export class CodingTemplate
     methodArgs:MethodArgument[];
     testCases:TestCase[];
     methodReturn:MethodArgument;
-    info:TestCommon;
+    info:TestCommon = new TestCommon();
 }
 
 export class MethodArgument
