@@ -5,8 +5,7 @@ import { AuthenticateService } from '../services/authenticate.service';
 @Component({
   selector: 'app-m-tnav-bar',
   templateUrl: './m-tnav-bar.component.html',
-  styleUrls: ['./m-tnav-bar.component.css'],
-  providers:[AuthenticateService]
+  styleUrls: ['./m-tnav-bar.component.css']
 })
 export class MTNavBarComponent implements OnInit {
 
@@ -36,10 +35,7 @@ export class MTNavBarComponent implements OnInit {
   ];
 
   ngOnInit() {
-    if(!this.authService.isStillAuthenticated() && sessionStorage.getItem("authObject") == null)
-    {
-      this.router.navigate(['/', 'mTLogin']);
-    }
+   this.isLoggedIn$ = this.authService.isLoggedIn; 
   }
 
   
