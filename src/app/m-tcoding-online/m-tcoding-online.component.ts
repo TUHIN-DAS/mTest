@@ -142,8 +142,7 @@ export class MTCodingOnlineComponent implements OnInit {
         return;
       }
       this.notification.snapNot("Test Added Succesfully","",this.msgService,"success",30000);
-      console.log(response);
-      //this.router.navigate(['/', 'mTDashboard']);
+      this.router.navigate(['/', 'mTCodingTests']);
      }
     );
     

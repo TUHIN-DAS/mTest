@@ -27,4 +27,8 @@ export class TestService
         return this.http.post<any>(ServiceList.GET_CODE_TEST,{"author":id},httpOptions);
     }
 
+    deleteCodeTest(id)
+    {
+        return this.http.post<any>(ServiceList.DEL_CODE_TEST,{ "id" : id },httpOptions);
+    }
 }

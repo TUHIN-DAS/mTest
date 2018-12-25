@@ -1,39 +1,47 @@
 
+<p-blockUI [target]="dt" [blocked]="busy">
+    <p-progressSpinner [style]="{  marginLeft: '400px',marginTop: '62px'}"></p-progressSpinner>
+</p-blockUI>
+
 <p-toolbar>
     <div class="ui-toolbar-group-left">
          <b>Coding Test(s)</b> &nbsp;&nbsp;
-        <button pButton type="button" label="New" icon="pi pi-plus"></button>&nbsp;&nbsp;
-        <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>&nbsp;&nbsp;
-        <button pButton type="button" icon="pi pi-trash" class="ui-button-danger"></button>
+        <button pButton type="button" label="New" icon="pi pi-plus"  [routerLink]="['/mTCodingOnline']" ></button>&nbsp;&nbsp;
+        <p-calendar [(ngModel)]="rangeDates" showTime="true" selectionMode="range" [readonlyInput]="true" ></p-calendar>&nbsp;&nbsp;
+        <i class="fa fa-calendar fa-lg icon-button" (click)='applyDateFilter()'></i>
     </div>
     
     <div class="ui-toolbar-group-right">
         <div class="ui-inputgroup">
             <span class="ui-inputgroup-addon"><i class="pi pi-search"></i></span>
-            <input type="text"   pInputText placeholder="Search">         
+            <input type="text" pInputText size="50" placeholder="Search" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">         
         </div>
        
     </div>
 </p-toolbar>
 
-<p-table [columns]="cols" [value]="tests" [(selection)]="selectedRows" dataKey="id">
+<p-table #dt [columns]="cols" [value]="tests" [(selection)]="selectedRows" dataKey="id"  >
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th style="width: 3em">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th *ngFor="let col of columns">
+      
+            <th *ngFor="let col of columns"  [width]='col.width'>
                 {{col.header}}
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
-            <td>
-                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-            </td>
+        
             <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                <span *ngIf='col.field != "actions" && col.field != "created_on"'>{{rowData[col.field]}}</span>
+                <span *ngIf='col.field == "actions"'>
+                    <i class="fa fa-eye fa-lg icon-button"></i> &nbsp;&nbsp;
+                    <i  *ngIf='rowData["canChange"]' class="fa fa-pencil fa-lg icon-button"></i> &nbsp;&nbsp;
+                    <i  *ngIf='rowData["canChange"]' (click)='deleteTest(rowData)' class="fa fa-trash fa-lg icon-button" ></i> &nbsp;&nbsp;
+                </span>
+                <span *ngIf='col.field == "created_on"' title='{{rowData[col.field]}}'>
+                     {{rowData["relativeTime"]}}
+                </span>
             </td>
         </tr>
     </ng-template>

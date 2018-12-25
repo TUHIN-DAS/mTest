@@ -21,13 +21,14 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {BlockUIModule} from 'primeng/blockui';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {TableModule} from 'primeng/table';
+import {CalendarModule} from 'primeng/calendar';
 @NgModule({
 exports:
 	[
 		CardModule,ButtonModule,InputTextModule,CheckboxModule,RadioButtonModule,TabViewModule,
 		CodeHighlighterModule,MegaMenuModule,PanelModule,BreadcrumbModule,EditorModule,FieldsetModule,
 		DropdownModule,SidebarModule,ToastModule,ToolbarModule,DynamicDialogModule,DialogModule,
-		ProgressSpinnerModule,BlockUIModule,InputSwitchModule,TableModule
+		ProgressSpinnerModule,BlockUIModule,InputSwitchModule,TableModule,CalendarModule
 	],
 	imports: [
 	 

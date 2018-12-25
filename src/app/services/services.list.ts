@@ -11,5 +11,5 @@ export class ServiceList
    static ADD_USER = "//localhost:8003/registeruser";
    static ADD_CODE_TEST = "//localhost:8003/addcodingtest";
    static GET_CODE_TEST = "//localhost:8003/getcodingtests";
-
+   static DEL_CODE_TEST = "//localhost:8003/deletecodingtest";
 }
